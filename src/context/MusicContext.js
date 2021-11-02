@@ -1,7 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
 
+
 export const MusicContext = createContext()
+
+const initialUltimasBusquedas = JSON.parse(sessionStorage.getItem('ultimasbusquedas')) || []
+const initiaFavoritos = JSON.parse(localStorage.getItem('favoritos')) || []
 
 const MusicProvider = ({children}) => {
 
@@ -9,33 +13,50 @@ const MusicProvider = ({children}) => {
     const [letra, setLetra] = useState('')
     const [info, setInfo] = useState({})
     const [isloading, setIsLoading] = useState(false)
-    const [ultimasbusquedas, setUltimasBusquedas] = useState([])
+    const [ultimasbusquedas, setUltimasBusquedas] = useState(initialUltimasBusquedas)
+    const [favoritos, setFavoritos] = useState(initiaFavoritos)
+
 
 
     useEffect(() => {
-        if(Object.keys(busqueda).length === 0) return
-        const {artista, cancion} = busqueda
+      consultarAPIletras()
+    }, [busqueda])
 
-        const consultarAPIletras = async () => {
-            setIsLoading(true)
+    useEffect(() => {
+      sessionStorage.setItem('ultimasbusquedas', JSON.stringify(ultimasbusquedas))
+    }, [ultimasbusquedas])
 
-            const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`
-            const url2 = `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${artista}`
+    useEffect(() => {
+      localStorage.setItem('favoritos', JSON.stringify(favoritos))
+    }, [favoritos])
 
-          const[letra, informacion] = await Promise.all([
-            axios(url),
-            axios(url2)
-          ])
 
-          setLetra(letra.data.lyrics)
-          setInfo(informacion.data.artists[0])
-          setTimeout(() => {
-            setIsLoading(false)
-          },300)
-        }
-        consultarAPIletras()
 
-      }, [busqueda])
+    const consultarAPIletras = async () => {
+      setIsLoading(true)
+
+      if(Object.keys(busqueda).length === 0) return
+      const {artista, cancion} = busqueda
+
+      const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`
+      const url2 = `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${artista}`
+
+      const[letra, informacion] = await Promise.all([
+        axios(url),
+        axios(url2)
+      ])
+
+      setLetra(letra.data.lyrics)
+      setInfo(informacion.data.artists[0])
+      const urlP = informacion.data.artists[0].strArtistThumb
+      const id = Date.now()
+      setUltimasBusquedas([{artista, cancion, urlP, id}, ...ultimasbusquedas])
+      console.log('api')
+      setTimeout(() => {
+        setIsLoading(false)
+      },300)
+    }
+
 
 
 
@@ -47,8 +68,10 @@ const MusicProvider = ({children}) => {
                 letra,
                 info,
                 ultimasbusquedas,
+                favoritos,
                 isloading,
-                setBusqueda
+                setBusqueda,
+                setFavoritos,
             }}
         >
             {children}

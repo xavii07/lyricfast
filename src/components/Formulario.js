@@ -28,13 +28,12 @@ const Formulario = () => {
 
     }
 
-    
     return (
-        <Form 
+        <Form
             onSubmit={handleSubmit}
         >
             <H1> Search your favorite lyric</H1>
-            <Input 
+            <Input
                 tipo="text"
                 placeholder="Avicii"
                 name="artista"
@@ -43,7 +42,7 @@ const Formulario = () => {
                 estado={artista}
                 setEstado={setArtista}
             />
-            <Input 
+            <Input
                 tipo="text"
                 placeholder="The nights"
                 name="cancion"
@@ -52,8 +51,8 @@ const Formulario = () => {
                 estado={cancion}
                 setEstado={setCancion}
             />
-            
-            <InputSubmit 
+
+            <InputSubmit
                 type='submit'
                 value='Buscar Letra'
             />
@@ -102,7 +101,7 @@ const InputSubmit = styled.input`
     color: #fff;
     grid-column: 2/12;
     grid-row:8/9;
-    
+
     @media(min-width: 768px) {
         grid-column: 5/9;
         grid-row:9/10;

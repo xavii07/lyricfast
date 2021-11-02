@@ -1,28 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faStar, faTrash} from '@fortawesome/free-solid-svg-icons'
+import TableRow from './TableRow'
 
 
 
-const Tabla = () => {
+const Tabla = ({titulo, icono, areglo, funcion}) => {
+
+
     return (
         <Table>
-            <thead>
-                <tr>
-                    <th>Artista</th>
-                    <th>Cancion</th>
-                    <th></th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+            <caption>{titulo}</caption>
+            <THead>
+                <Tr>
+                    <Th colSpan="2">Artista</Th>
+                    <Th>Cancion</Th>
+                    <Th>Acciones</Th>
+                </Tr>
+            </THead>
             <tbody>
-                <tr>
-                    <td>Avicii</td>
-                    <td>The nights</td>
-                    <td><Img src="https://static.dw.com/image/43477419_303.jpg" alt="" /></td>
-                    <td><FontAwesomeIcon icon={faStar}/></td>
-                </tr>
+                {areglo.map(array => (
+                    <TableRow
+                        key={array.id}
+                        artista={array.artista}
+                        cancion={array.cancion}
+                        urlP={array.urlP}
+                        icono={icono}
+                        funcion={funcion}
+                        id={array.id}
+                    />
+                ))}
             </tbody>
         </Table>
     )
@@ -30,16 +36,28 @@ const Tabla = () => {
 
 
 const Table = styled.table`
+    width: 100%;
     margin-top: 3rem;
     margin-bottom: 6rem;
-    grid-area: tabla;
+    background-color: #fff;
     text-align: center;
+    border-collapse: collapse;
 `;
 
-const Img = styled.img`
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
+const Tr = styled.tr`
+    font-size:0.9rem;
 `;
+
+const Th = styled.th`
+    padding:0.8rem 0;
+`;
+
+const THead = styled.thead`
+     background:#FF4C4C;
+    color:#fff;
+    padding:1rem;
+`;
+
+
 
 export default Tabla

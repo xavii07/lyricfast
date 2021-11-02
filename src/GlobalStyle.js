@@ -38,6 +38,10 @@ const GlobalStyle = createGlobalStyle`
             font-size: 16px;
         }
     }
+
+    h2 {
+        color: #FF4C4C !important;
+    }
 `;
 
 export default GlobalStyle;

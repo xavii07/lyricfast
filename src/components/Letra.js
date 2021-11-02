@@ -8,8 +8,7 @@ import Subtitle from './Subtitle';
 const Letra = () => {
 
     const {letra, busqueda, isloading} = useContext(MusicContext)
-    
-    
+
     if(Object.keys(busqueda).length === 0) return null
     if(letra.length === 0) return null
     const {cancion} = busqueda
@@ -19,7 +18,7 @@ const Letra = () => {
             {isloading ? <Loader /> : (
                 <>
                     <Subtitle text={cancion} />
-                    <PLetra>{letra}</PLetra>    
+                    <PLetra>{letra}</PLetra>
                 </>
             )}
         </DivLetra>

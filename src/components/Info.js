@@ -18,7 +18,6 @@ const Info = () => {
     const{artista} = busqueda
     const {strBiographyEN, strBiographyES, strArtistFanart, strArtistThumb, strFacebook, strTwitter, strLastFMChart} = info
 
-    console.log(artista.split(' ').join(''))
     const parrafo = strBiographyES || strBiographyEN
     const imagen = strArtistThumb || strArtistFanart
     const linkTwitter = strTwitter || `twitter.com/${artista.split(' ').join('')}`

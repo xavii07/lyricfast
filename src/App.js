@@ -7,6 +7,7 @@ import Letra from './components/Letra'
 import Info from './components/Info'
 import Galeria from './components/Galeria'
 import Error from './components/Error'
+import Favoritos from './pages/Favoritos'
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
           <Route exact path="/letra" component={Letra}/>
           <Route exact path="/artista" component={Info}/>
           <Route exact path="/album" component={Galeria}/>
-          <Route exact path="/favoritos" component={Home}/>
+          <Route exact path="/favoritos" component={Favoritos}/>
           <Route path="*" component={Error}/>
         </Switch>
       </Router>
