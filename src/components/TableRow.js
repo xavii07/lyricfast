@@ -1,16 +1,21 @@
-import React, { useContext } from 'react'
+import React, {useContext} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
-import { MusicContext } from '../context/MusicContext';
+import { useHistory } from 'react-router-dom';
+import {MusicContext} from '../context/MusicContext';
+
+
 
 const TableRow = ({icono, artista, cancion, urlP, funcion, id}) => {
 
-    const {consultarAPIletras} = useContext(MusicContext)
+    const history = useHistory();
+    const {setDatatoedit} = useContext(MusicContext);
+
 
     const buscarCancion = (artista,cancion) => {
-        alert('buscando song')
-        console.log(artista,cancion)
+        setDatatoedit({artista,cancion});
+        history.push('/')
     }
 
     return (

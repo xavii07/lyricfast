@@ -13,13 +13,19 @@ const Letra = () => {
     if(letra.length === 0) return null
     const {cancion} = busqueda
 
+
+
+
     return (
         <DivLetra>
+
             {isloading ? <Loader /> : (
-                <>
-                    <Subtitle text={cancion} />
-                    <PLetra>{letra}</PLetra>
-                </>
+                letra.error ? <p>No se encontro la cancion</p> : (
+                    <>
+                        <Subtitle text={cancion} />
+                        <PLetra>{letra.lyrics}</PLetra>
+                    </>
+                )
             )}
         </DivLetra>
     )
@@ -33,11 +39,11 @@ const DivLetra = styled.div`
     justify-content: center;
     width: 80%;
     margin: 0 auto;
-    margin-top: 2rem; 
+    margin-top: 2rem;
     padding-bottom: 6rem;
-    
+
     @media(min-width: 768px) {
-        margin-top: 3rem; 
+        margin-top: 3rem;
         width: 60%;
     }
 `;

@@ -10,37 +10,41 @@ import {faFacebook, faTwitter, faLastfm} from '@fortawesome/free-brands-svg-icon
 
 const Info = () => {
 
-    const {info, busqueda} = useContext(MusicContext)
+    const {info} = useContext(MusicContext)
 
-    if(Object.keys(busqueda).length === 0) return null
     if(Object.keys(info).length === 0) return null
+    if(!info.artists) return null
 
-    const{artista} = busqueda
-    const {strBiographyEN, strBiographyES, strArtistFanart, strArtistThumb, strFacebook, strTwitter, strLastFMChart} = info
+
+    const {strBiographyEN, strArtist, strBiographyES, strArtistFanart, strArtistThumb, strFacebook, strTwitter, strLastFMChart} = info.artists[0]
 
     const parrafo = strBiographyES || strBiographyEN
     const imagen = strArtistThumb || strArtistFanart
-    const linkTwitter = strTwitter || `twitter.com/${artista.split(' ').join('')}`
-    const linkMusic = strLastFMChart?.slice(7,-1) || `www.last.fm/music/${artista}/+tracks?rangetype=6mont`
-
+    const linkTwitter = strTwitter || `twitter.com/${strArtist.split(' ').join('')}`
+    const linkMusic = strLastFMChart?.slice(7,-1) || `www.last.fm/music/${strArtist}/+tracks?rangetype=6mont`
 
 
 
     return (
-        <DivBiography>
-            <Subtitle text={artista}/>
-            <DivImagen>
-                <Imagen src={imagen} alt={artista} />
-            </DivImagen>
-            <DivIconos>
-                <Icono link={strFacebook} icono={faFacebook} />
-                <Icono link={linkTwitter} icono={faTwitter} />
-                <Icono link={linkMusic} icono={faLastfm} />
-            </DivIconos>
-            <DivInfo>
-                <p>{parrafo}</p>
-            </DivInfo>
-        </DivBiography>
+        <>
+            {!!info.artists ? (
+                 <DivBiography>
+                    <Subtitle text={strArtist}/>
+                    <DivImagen>
+                        <Imagen src={imagen} alt={strArtist} />
+                    </DivImagen>
+                    <DivIconos>
+                        <Icono link={strFacebook} icono={faFacebook} />
+                        <Icono link={linkTwitter} icono={faTwitter} />
+                        <Icono link={linkMusic} icono={faLastfm} />
+                    </DivIconos>
+                    <DivInfo>
+                        <p>{parrafo}</p>
+                    </DivInfo>
+                </DivBiography>
+            ) : <p>No se encontro el artista</p>}
+        </>
+
     )
 }
 

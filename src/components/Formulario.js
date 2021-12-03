@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router';
 import { faFileAudio, faUserTie } from '@fortawesome/free-solid-svg-icons'
 import { MusicContext } from '../context/MusicContext';
@@ -11,11 +11,21 @@ import Input from './Input';
 
 const Formulario = () => {
 
-    const [artista, setArtista] = useState({campo: "", valido: null})
-    const [cancion, setCancion] = useState({campo: "", valido: null})
+    const [artista, setArtista] = useState({})
+    const [cancion, setCancion] = useState({})
 
-    const {setBusqueda} = useContext(MusicContext)
+    const {setBusqueda, datatoedit, setDatatoedit} = useContext(MusicContext)
     const history = useHistory()
+
+    useEffect(() => {
+        if(datatoedit) {
+            setArtista({campo: datatoedit.artista, valido: true})
+            setCancion({campo: datatoedit.cancion, valido: true})
+        } else {
+            setArtista({campo: "", valido: null})
+            setCancion({campo: "", valido: null})
+        }
+    }, [datatoedit])
 
 
     const handleSubmit = e => {
@@ -24,9 +34,13 @@ const Formulario = () => {
         if(artista.campo.length > 0 && cancion.campo.length > 0) {
            setBusqueda({artista:artista.campo, cancion:cancion.campo})
            history.push('/letra')
+           setArtista({campo: "", valido: null})
+           setCancion({campo: "", valido: null})
+           setDatatoedit(null)
         }
-
     }
+
+    
 
     return (
         <Form

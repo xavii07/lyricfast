@@ -16,7 +16,6 @@ const Home = () => {
 
   const {ultimasbusquedas, setFavoritos, favoritos} = useContext(MusicContext)
 
-
   const agregarFavoritos = (id) => {
       ultimasbusquedas.map(busqueda => busqueda.id === id ? setFavoritos([busqueda, ...favoritos]) : null)
 
@@ -46,7 +45,7 @@ const Home = () => {
           icono={faStar}
           areglo={ultimasbusquedas}
           funcion={agregarFavoritos}
-          />
+        />
       </DivTabla>}
     </ContainerGrid>
   );

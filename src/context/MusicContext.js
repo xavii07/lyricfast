@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import axios from 'axios'
+import { helpHttp } from "../helper/helpHttp";
 
 
 export const MusicContext = createContext()
@@ -15,6 +15,7 @@ const MusicProvider = ({children}) => {
     const [isloading, setIsLoading] = useState(false)
     const [ultimasbusquedas, setUltimasBusquedas] = useState(initialUltimasBusquedas)
     const [favoritos, setFavoritos] = useState(initiaFavoritos)
+    const [datatoedit, setDatatoedit] = useState(null)
 
 
 
@@ -37,21 +38,19 @@ const MusicProvider = ({children}) => {
 
       if(Object.keys(busqueda).length === 0) return
       const {artista, cancion} = busqueda
-
       const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`
       const url2 = `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${artista}`
 
-      const[letra, informacion] = await Promise.all([
-        axios(url),
-        axios(url2)
+      const [letra, informacion] = await Promise.all([
+        helpHttp().get(url),
+        helpHttp().get(url2)
       ])
 
-      setLetra(letra.data.lyrics)
-      setInfo(informacion.data.artists[0])
-      const urlP = informacion.data.artists[0].strArtistThumb
+      setLetra(letra)
+      setInfo(informacion)
+      const urlP = informacion.artists && informacion.artists[0].strArtistThumb
       const id = Date.now()
       setUltimasBusquedas([{artista, cancion, urlP, id}, ...ultimasbusquedas])
-      console.log('api')
       setTimeout(() => {
         setIsLoading(false)
       },300)
@@ -67,11 +66,13 @@ const MusicProvider = ({children}) => {
                 busqueda,
                 letra,
                 info,
+                datatoedit,
                 ultimasbusquedas,
                 favoritos,
                 isloading,
                 setBusqueda,
                 setFavoritos,
+                setDatatoedit
             }}
         >
             {children}
