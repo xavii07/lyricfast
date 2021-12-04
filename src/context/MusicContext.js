@@ -21,6 +21,7 @@ const MusicProvider = ({children}) => {
 
     useEffect(() => {
       consultarAPIletras()
+      // eslint-disable-next-line
     }, [busqueda])
 
     useEffect(() => {

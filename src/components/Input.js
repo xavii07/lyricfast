@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { MusicContext } from '../context/MusicContext';
+
 
 
 const Input = ({tipo, name, placeholder, estado, setEstado, icono, label}) => {
