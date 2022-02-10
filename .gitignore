@@ -7,6 +7,10 @@
 
 # testing
 /coverage
+/*/__tests__
+/*/__mocks__
+*.test.js 
+*.spec.js
 
 # production
 /build
